@@ -11,58 +11,46 @@ browser-compat: javascript.builtins.Promise.then
 ---
 {{JSRef}}
 
-The **`then()`** method returns a {{jsxref("Promise")}}. It
-takes up to two arguments: callback functions for the success and failure cases of the
-`Promise`.
+**`then()`** 方法返回一个{{jsxref("Promise")}}对象。它最多有两个变量，分别是`Promise`在成功和失败情形下的回调函数。
 
 {{EmbedInteractiveExample("pages/js/promise-then.html")}}
 
-> **Note:** If one or both arguments are omitted or are provided non-functions, then
-> `then` will be missing the handler(s), but will not generate any errors. If
-> the `Promise` that `then` is called on adopts a state
-> (`fulfillment` or `rejection`) for which `then` has
-> no handler, the returned promise adopts the final state of the original
-> `Promise` on which `then` was called.
+> **注意:** 如果上述的一个或两个变量被忽略了或被赋值为了非函数，那么`then` 会缺少处理器函数（handler），但不会报错。
+> 当调用`then`的`Promise`被兑现（fulfillment）或拒绝（reject），且`then`没有处理器函数（handler）
+> 返回的`Promise`会接受上述调用`then`的`Promise`的最终状态。
 
-## Syntax
+## 语法
 
 ```js
 p.then(onFulfilled[, onRejected]);
 
 p.then(value => {
-  // fulfillment
+  // 兑现Promise时，执行的函数
 }, reason => {
-  // rejection
+  // 拒绝Promise时，执行的函数
 });
 ```
 
 ### Parameters
 
-- `onFulfilled` {{optional_inline}}
-  - : A {{jsxref("Function")}} called if the `Promise` is fulfilled. This
-    function has one argument, the `fulfillment value`. If it is not a
-    function, it is internally replaced with an "Identity" function (it returns the
-    received argument).
-- `onRejected` {{optional_inline}}
-  - : A {{jsxref("Function")}} called if the `Promise` is rejected. This
-    function has one argument, the `rejection reason`. If it is not a function,
-    it is internally replaced with a "Thrower" function (it throws an error it received as
-    argument).
+- `onFulfilled` `可选`
+  - : 当`Promise`被兑现（fulfilled）时所调用的{{jsxref("Function")}}。这个函数有一个参数：`兑现值（fulfillment value）`。
+    如果它不是一个函数，它会返回接受的参数，被自身函数替代。
+- `onRejected` `可选`
+  - : 当`Promise`被拒绝（rejected）时所调用的{{jsxref("Function")}}。这个函数有一个参数：`拒绝原因（rejection reason）`。
+    如果它不是一个函数，它会被替换为抛出函数，即抛出它收到的错误作为参数。
 
-### Return value
+### 返回值
 
-Once a {{jsxref("Promise")}} is fulfilled or rejected, the respective handler function
-(`onFulfilled` or `onRejected`) will be called
-**asynchronously** (scheduled in the current thread loop). The behavior of
-the handler function follows a specific set of rules. If a handler function:
+一旦兑现或拒绝一个期约{{jsxref("Promise")}}，`兑现（onFulfilled）` 或 `拒绝（onRejected）`的处理函数会被**异步**调用（安排在当前线程循环）。
+处理器函数的行为遵从一系列特别的规则。如果一个处理函数：
 
-- returns a value, the promise returned by `then` gets resolved with the
-  returned value as its value.
-- doesn't return anything, the promise returned by `then` gets resolved
+- 返回一个值，`then`所返回的promise接受返回值
+- 不返还任何值，doesn't return anything, the promise returned by `then` gets resolved
   with an `undefined` value.
-- throws an error, the promise returned by `then` gets rejected with the
+- 抛出错误throws an error, the promise returned by `then` gets rejected with the
   thrown error as its value.
-- returns an already fulfilled promise, the promise returned by `then` gets
+- 返回一个已经实现的期约promise，returns an already fulfilled promise, the promise returned by `then` gets
   fulfilled with that promise's value as its value.
 - returns an already rejected promise, the promise returned by `then` gets
   rejected with that promise's value as its value.
@@ -98,7 +86,7 @@ setTimeout(() => {
 // Promise {[[PromiseStatus]]: "resolved", [[PromiseValue]]: 33}
 ```
 
-## Description
+## 描述Description
 
 As the `then` and {{jsxref("Promise.prototype.catch()")}} methods return
 promises, they [can be
@@ -122,7 +110,7 @@ p1.then(value => {
 });
 ```
 
-### Chaining
+### 链式调用
 
 The `then` method returns a `Promise` which allows for method
 chaining.
@@ -324,7 +312,7 @@ const nextTick = (() => {
 
 {{Specifications}}
 
-## Browser compatibility
+## 浏览器适配Browser compatibility
 
 {{Compat}}
 
